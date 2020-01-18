@@ -2,6 +2,12 @@ const { app, BrowserWindow } = require("electron");
 const path = require("path");
 const url = require("url");
 
+const sqlite3 = require("sqlite3").verbose();
+const db = new sqlite3.Database("./database.db");
+// const level = require("level");
+
+// const db = level("./database");
+
 require("dotenv").config();
 
 let mainWindow;
@@ -10,7 +16,11 @@ function createWindow() {
   // Create the browser window.
   mainWindow = new BrowserWindow({
     width: 800,
-    height: 600
+    height: 600,
+    webPreferences: {
+      preload: path.join(__dirname, "preload.js"),
+      webSecurity: false
+    }
   });
 
   const startUrl =
@@ -25,13 +35,11 @@ function createWindow() {
   mainWindow.loadURL(startUrl);
 
   // Open the DevTools.
-  mainWindow.webContents.openDevTools();
+  // mainWindow.webContents.openDevTools();
 
   // Emitted when the window is closed.
   mainWindow.on("closed", function() {
-    // Dereference the window object, usually you would store windows
-    // in an array if your app supports multi windows, this is the time
-    // when you should delete the corresponding element.
+    db.close();
     mainWindow = null;
   });
 }
@@ -57,6 +65,8 @@ app.on("activate", function() {
     createWindow();
   }
 });
+
+module.exports = { db };
 
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and require them here.

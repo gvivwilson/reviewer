@@ -1,7 +1,16 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
+
+import { fetchSubjects, fetchSubject } from "../actions";
 
 class Login extends Component {
+  componentDidMount() {
+    // this.props.fetchSubjects();
+    this.props.fetchSubject(20);
+  }
+
   render() {
+    console.log(this.props.subjects);
     return (
       <div>
         <h3 className="ui dividing header">Login</h3>
@@ -21,4 +30,11 @@ class Login extends Component {
   }
 }
 
-export default Login;
+const mapStateToProps = state => {
+  console.log(state);
+  return { subjects: state.subjects };
+};
+
+export default connect(mapStateToProps, { fetchSubjects, fetchSubject })(Login);
+
+// export default Login;
