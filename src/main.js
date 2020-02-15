@@ -5,7 +5,7 @@ const url = require("url");
 const sqlite3 = require("sqlite3").verbose();
 const db = new sqlite3.Database("./database.db");
 // const level = require("level");
-
+db.get("PRAGMA foreign_keys = ON");
 // const db = level("./database");
 
 require("dotenv").config();
