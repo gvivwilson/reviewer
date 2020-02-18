@@ -1,4 +1,4 @@
-import { FETCH_SUBJECTS, FETCH_SUBJECT, SIGN_IN } from "./types";
+import { FETCH_SUBJECTS, FETCH_SUBJECT, SIGN_IN, FETCH_USERS } from "./types";
 
 export const fetchSubjects = () => async dispatch => {
   const response = await window.subjects.get();
@@ -14,7 +14,14 @@ export const fetchSubject = id => async dispatch => {
 
 export const signIn = details => async dispatch => {
   const response = await window.users.post(details);
-  console.log(response);
+  // console.log(response);
 
   dispatch({ type: SIGN_IN, payload: response.userId });
+};
+
+export const fetchUsers = () => async dispatch => {
+  const response = await window.users.get();
+  console.log(response);
+
+  dispatch({ type: FETCH_USERS, payload: response });
 };

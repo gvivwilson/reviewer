@@ -13,6 +13,7 @@ module.exports = id => {
             results[id] = { id, title, userId };
           });
           resolve(results);
+          // resolve(rows);
         }
       });
     } else {
